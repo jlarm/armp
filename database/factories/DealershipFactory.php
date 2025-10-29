@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Models\Dealership;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Dealership>
@@ -20,7 +21,8 @@ final class DealershipFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'uuid' => (string) Str::uuid(),
+            'name' => fake()->name(),
         ];
     }
 }
