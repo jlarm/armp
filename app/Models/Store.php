@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read int $id
  * @property-read string $uuid
  * @property-read string $name
+ * @property-read string $slug
  * @property-read string $address
  * @property-read string $city
  * @property-read State $state
@@ -36,7 +37,9 @@ final class Store extends Model
         return [
             'id' => 'integer',
             'uuid' => 'string',
+            'dealership_id' => 'integer',
             'name' => 'string',
+            'slug' => 'string',
             'address' => 'string',
             'city' => 'string',
             'state' => State::class,
