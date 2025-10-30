@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Concerns\HasRoles;
 use App\Enums\Role;
 use Carbon\CarbonInterface;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,8 +28,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  */
 final class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory;
+    use HasRoles;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that should be hidden for serialization.

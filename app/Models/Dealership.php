@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Concerns\HasRoleFilteredUsers;
 use App\Enums\Role;
 use Carbon\CarbonInterface;
-use Database\Factories\DealershipFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,23 +24,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class Dealership extends Model
 {
-    /** @use HasFactory<DealershipFactory> */
-    use HasFactory, HasRoleFilteredUsers;
-
-    /**
-     * @return array<string, string>
-     */
-    public function casts(): array
-    {
-        return [
-            'id' => 'integer',
-            'uuid' => 'string',
-            'name' => 'string',
-            'created_by' => 'integer',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
-    }
+    use HasFactory;
+    use HasRoleFilteredUsers;
 
     /**
      * @return HasMany<Store, $this>
@@ -71,5 +55,20 @@ final class Dealership extends Model
                 ->orWhereHas('dealerships', fn (Builder $q) => $q->where('dealerships.id', $this->id))
                 ->orWhereHas('stores', fn (Builder $q) => $q->where('dealership_id', $this->id));
         });
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'uuid' => 'string',
+            'name' => 'string',
+            'created_by' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
     }
 }

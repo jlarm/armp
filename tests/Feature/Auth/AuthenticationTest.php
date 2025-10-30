@@ -43,6 +43,7 @@ test('users with two factor enabled are redirected to two factor challenge', fun
     if (! Features::canManageTwoFactorAuthentication()) {
         $this->markTestSkipped('Two-factor authentication is not enabled.');
     }
+
     Features::twoFactorAuthentication([
         'confirm' => true,
         'confirmPassword' => true,

@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Concerns\HasRoleFilteredUsers;
 use App\Enums\State;
 use Carbon\CarbonInterface;
-use Database\Factories\StoreFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,13 +27,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 final class Store extends Model
 {
-    /** @use HasFactory<StoreFactory> */
-    use HasFactory, HasRoleFilteredUsers;
+    use HasFactory;
+    use HasRoleFilteredUsers;
+
+    /**
+     * @return BelongsTo<Dealership, $this>
+     */
+    public function dealership(): BelongsTo
+    {
+        return $this->belongsTo(Dealership::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 
     /**
      * @return array<string, string>
      */
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'id' => 'integer',
@@ -48,18 +60,5 @@ final class Store extends Model
             'zip' => 'string',
             'phone' => 'string',
         ];
-    }
-
-    /**
-     * @return BelongsTo<Dealership, $this>
-     */
-    public function dealership(): BelongsTo
-    {
-        return $this->belongsTo(Dealership::class);
-    }
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class)->withTimestamps();
     }
 }

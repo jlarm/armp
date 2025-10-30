@@ -33,23 +33,6 @@ final class Invitation extends Model
     }
 
     /**
-     * @return array<string, string>
-     */
-    public function casts(): array
-    {
-        return [
-            'id' => 'integer',
-            'email' => 'string',
-            'token' => 'string',
-            'role' => Role::class,
-            'invited_by' => 'integer',
-            'store_id' => 'integer',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
-    }
-
-    /**
      * @return BelongsTo<User, $this>
      */
     public function invitedBy(): BelongsTo
@@ -63,5 +46,22 @@ final class Invitation extends Model
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id');
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'email' => 'string',
+            'token' => 'string',
+            'role' => Role::class,
+            'invited_by' => 'integer',
+            'store_id' => 'integer',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
     }
 }
