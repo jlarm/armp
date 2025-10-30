@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Concerns\HasRoleFilteredUsers;
 use App\Enums\State;
 use Carbon\CarbonInterface;
 use Database\Factories\StoreFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property-read int $id
@@ -27,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class Store extends Model
 {
     /** @use HasFactory<StoreFactory> */
-    use HasFactory;
+    use HasFactory, HasRoleFilteredUsers;
 
     /**
      * @return array<string, string>
@@ -54,5 +56,10 @@ final class Store extends Model
     public function dealership(): BelongsTo
     {
         return $this->belongsTo(Dealership::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 }

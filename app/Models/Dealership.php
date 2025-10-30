@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Concerns\HasRoleFilteredUsers;
+use App\Enums\Role;
 use Carbon\CarbonInterface;
 use Database\Factories\DealershipFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -20,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 final class Dealership extends Model
 {
     /** @use HasFactory<DealershipFactory> */
-    use HasFactory;
+    use HasFactory, HasRoleFilteredUsers;
 
     /**
      * @return array<string, string>
@@ -31,8 +36,8 @@ final class Dealership extends Model
             'id' => 'integer',
             'uuid' => 'string',
             'name' => 'string',
-            'createdAt' => 'datetime',
-            'updatedAt' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 
@@ -42,5 +47,27 @@ final class Dealership extends Model
     public function stores(): HasMany
     {
         return $this->hasMany(Store::class);
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    public function allAccessibleUsers(): Builder
+    {
+        return User::query()->where(function (Builder $query): void {
+            $query->where('role', Role::ADMIN)
+                ->orWhereHas('dealerships', fn (Builder $q) => $q->where('dealerships.id', $this->id))
+                ->orWhereHas('stores', fn (Builder $q) => $q->where('dealership_id', $this->id));
+        });
     }
 }
