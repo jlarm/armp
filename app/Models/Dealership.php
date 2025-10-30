@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int $id
  * @property-read string $uuid
  * @property-read string $name
+ * @property-read int $created_by
  * @property-read CarbonInterface $created_at
  * @property-read CarbonInterface $updated_at
  */
@@ -36,6 +37,7 @@ final class Dealership extends Model
             'id' => 'integer',
             'uuid' => 'string',
             'name' => 'string',
+            'created_by' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -54,7 +56,7 @@ final class Dealership extends Model
      */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function users(): BelongsToMany

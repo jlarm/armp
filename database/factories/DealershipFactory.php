@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Dealership;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ final class DealershipFactory extends Factory
         return [
             'uuid' => (string) Str::uuid(),
             'name' => fake()->name(),
+            'created_by' => User::factory(),
         ];
     }
 }

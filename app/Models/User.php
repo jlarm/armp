@@ -102,11 +102,7 @@ final class User extends Authenticatable
             return $this->dealerships->contains($store->dealership_id);
         }
 
-        if ($this->isStoreLevel()) {
-            return $this->stores->contains($store->id);
-        }
-
-        return false;
+        return $this->stores->contains($store->id);
     }
 
     /**
@@ -122,10 +118,11 @@ final class User extends Authenticatable
             'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'role' => Role::class,
-            'remember_token' => 'string',
             'two_factor_secret' => 'string',
             'two_factor_recovery_code' => 'string',
+            'two_factor_confirmed_at' => 'datetime',
+            'role' => Role::class,
+            'remember_token' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

@@ -60,4 +60,42 @@ final class UserFactory extends Factory
             'two_factor_confirmed_at' => null,
         ]);
     }
+
+    /**
+     * Indicate that the model is an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'role' => Role::ADMIN,
+        ]);
+    }
+
+    /**
+     * Indicate that the model is a consultant.
+     */
+    public function consultant(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'role' => Role::CONSULTANT,
+        ]);
+    }
+
+    /**
+     * Indicate that the model is a store-level user.
+     */
+    public function storeLevel(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'role' => fake()->randomElement([
+                Role::OWNER,
+                Role::CFO,
+                Role::GM,
+                Role::GSM,
+                Role::MANAGER,
+                Role::EMPLOYEE,
+                Role::PORTER,
+            ]),
+        ]);
+    }
 }
