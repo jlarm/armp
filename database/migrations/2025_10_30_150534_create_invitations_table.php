@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->string('role');
             $table->foreignId('invited_by')->constrained('users');
-            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
+            $table->foreignId('store_id')->nullable()->constrained('stores')->cascadeOnDelete();
             $table->timestamps();
         });
     }

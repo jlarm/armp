@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 
 /**
  * @property-read int $id
@@ -31,7 +30,6 @@ final class User extends Authenticatable
     use HasFactory;
     use HasRoles;
     use Notifiable;
-    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -40,8 +38,6 @@ final class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
         'remember_token',
     ];
 
@@ -119,9 +115,6 @@ final class User extends Authenticatable
             'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'two_factor_secret' => 'string',
-            'two_factor_recovery_code' => 'string',
-            'two_factor_confirmed_at' => 'datetime',
             'role' => Role::class,
             'remember_token' => 'string',
             'created_at' => 'datetime',

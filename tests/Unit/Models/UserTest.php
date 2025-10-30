@@ -19,7 +19,6 @@ test('to array', function (): void {
         'id',
         'name',
         'role',
-        'two_factor_confirmed_at',
         'updated_at',
     ];
 

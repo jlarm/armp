@@ -29,6 +29,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->bootModelsDefaults();
 
         Gate::define('access-dealership', fn (User $user, Dealership $dealership): bool => $user->hasAccessToDealership($dealership));
+        Gate::define('access-users', fn (User $user): bool => $user->isAdmin());
 
         Gate::define('access-store', fn (User $user, Store $store): bool => $user->hasAccessToStore($store));
     }
