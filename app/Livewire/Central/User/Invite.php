@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Livewire\Central\User;
 
 use App\Livewire\Forms\Central\User\InviteForm;
+use App\Mail\InvitationMail;
 use App\Models\Invitation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 final class Invite extends Component
@@ -18,7 +20,9 @@ final class Invite extends Component
     {
         $this->authorize('invite-consultant', Invitation::class);
 
-        $this->form->save();
+        $invitation = $this->form->save();
+
+        Mail::to($invitation->email)->send(new InvitationMail($invitation));
 
         $this->form->reset();
     }
