@@ -37,7 +37,6 @@ final class InvitationMail extends Mailable implements ShouldQueue
                 'acceptUrl' => URL::route('invitation.accept', [
                     'token' => $this->invitation->token,
                 ]),
-                'invitedBy' => $this->invitation->invitedBy->name,
             ],
         );
     }

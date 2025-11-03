@@ -1,12 +1,10 @@
 @component('mail::message')
-# Introduction
+Please click the link to complete your registration.
 
-The body of your message.
-
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => $acceptUrl])
+Register
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+ARMP
 @endcomponent
