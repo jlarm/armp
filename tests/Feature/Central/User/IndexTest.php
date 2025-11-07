@@ -16,7 +16,8 @@ test('guest', function (): void {
 test('consultant cannot access central users', function (): void {
     $user = User::factory()->consultant()->create();
 
-    $response = $this->actingAs($user)->get(route('user.index'));
+    $response = $this->actingAs($user)
+        ->get(route('user.index'));
 
     $response->assertStatus(403);
 });
@@ -24,9 +25,23 @@ test('consultant cannot access central users', function (): void {
 test('admin can access central users', function (): void {
     $user = User::factory()->admin()->create();
 
-    $response = $this->actingAs($user)->get(route('user.index'));
+    $response = $this->actingAs($user)
+        ->get(route('user.index'));
 
     $response
         ->assertOk()
-        ->assertSeeLivewire('central.user.invite');
+        ->assertSee('wire:snapshot');
+});
+
+test('can see list of users', function (): void {
+    $user = User::factory()->admin()->create();
+
+    $response = $this->actingAs($user)
+        ->get(route('user.index'));
+
+    $response->assertOk()
+        ->assertSee('wire:snapshot')
+        ->assertSee($user->name)
+        ->assertSee($user->email)
+        ->assertSee($user->role->label());
 });
