@@ -16,4 +16,7 @@ new class extends Component {
     <flux:table.cell>
         <flux:badge size="sm" :color="$user->role->color()" inset="top bottom">{{ $user->role->label() }}</flux:badge>
     </flux:table.cell>
+    <flux:table.cell align="end">
+        <flux:link wire:navigate variant="subtle" :href="route('user.show', $user)">View</flux:link>
+    </flux:table.cell>
 </flux:table.row>
