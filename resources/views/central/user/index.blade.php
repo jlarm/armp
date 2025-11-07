@@ -5,5 +5,8 @@
             <livewire:central.user.invite />
         </div>
         <flux:separator variant="subtle" class="my-4" />
+        <div>
+            <livewire:central.user.index />
+        </div>
     </div>
 </x-layouts.app>

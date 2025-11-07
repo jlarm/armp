@@ -1,4 +1,4 @@
-<form wire:submit="acceptInvitation" class="mt-6 space-y-6">
+<form wire:submit="accept" class="mt-6 space-y-6">
     <flux:field>
         <flux:label>Name</flux:label>
         <flux:input

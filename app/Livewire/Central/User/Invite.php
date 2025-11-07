@@ -7,6 +7,7 @@ namespace App\Livewire\Central\User;
 use App\Livewire\Forms\Central\User\InviteForm;
 use App\Mail\InvitationMail;
 use App\Models\Invitation;
+use Flux\Flux;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
@@ -25,6 +26,10 @@ final class Invite extends Component
         Mail::to($invitation->email)->send(new InvitationMail($invitation));
 
         $this->form->reset();
+
+        Flux::modal('invite-employee')->close();
+
+        Flux::toast(text: 'Invitation sent successfully!', variant: 'success');
     }
 
     public function render(): Factory|View

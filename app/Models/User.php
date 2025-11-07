@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Concerns\HasRoles;
 use App\Enums\Role;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -100,6 +101,13 @@ final class User extends Authenticatable
         }
 
         return $this->stores->contains($store->id);
+    }
+
+    #[Scope]
+    protected function centralUsers(Builder $query): void
+    {
+        $query->where('role', Role::ADMIN->value)
+            ->orWhere('role', Role::CONSULTANT->value);
     }
 
     /**

@@ -14,7 +14,9 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    @if(auth()->user()->isAdmin())
                     <flux:navlist.item icon="users" :href="route('user.index')" :current="request()->routeIs('user.index')" wire:navigate>{{ __('Consultants') }}</flux:navlist.item>
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 
@@ -129,5 +131,8 @@
         {{ $slot }}
 
         @fluxScripts
+        @persist('toast')
+        <flux:toast />
+        @endpersist
     </body>
 </html>
